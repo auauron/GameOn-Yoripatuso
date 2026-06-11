@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/artifact/artifact.gd" id="1_artifact"]
+
+[sub_resource type="CircleShape2D" id="Circle_artifact"]
+radius = 25.0
+
+[node name="Artifact" type="Area2D"]
+collision_layer = 2
+collision_mask = 0
+monitorable = true
+script = ExtResource("1_artifact")
+
+[node name="Glow" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, -22, 16, -16, 22, 0, 16, 16, 0, 22, -16, 16, -22, 0, -16, -16)
+color = Color(1, 0.73, 0.12, 0.22)
+
+[node name="PlaceholderVisual" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-12, -18, 12, -18, 17, -4, 10, 16, -10, 16, -17, -4)
+color = Color(1, 0.78, 0.16, 1)
+
+[node name="CenterCut" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-4, -9, 4, -9, 6, 8, -6, 8)
+color = Color(0.36, 0.2, 0.08, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Circle_artifact")
+
+[node name="DiscoverySound" type="AudioStreamPlayer" parent="."]
+

@@ -1,0 +1,258 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/game_round.gd" id="1_game"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/artifact/artifact.tscn" id="3_artifact"]
+[ext_resource type="PackedScene" path="res://scenes/world/searchable_prop.tscn" id="4_prop"]
+[ext_resource type="PackedScene" path="res://scenes/world/artifact_spawn_point.tscn" id="5_spawn"]
+[ext_resource type="Script" path="res://scripts/audio/echo_controller.gd" id="6_echo"]
+[ext_resource type="Script" path="res://scripts/integration/portal_gateway.gd" id="7_portal"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="8_hud"]
+
+[sub_resource type="RectangleShape2D" id="Shape_horizontal"]
+size = Vector2(1280, 24)
+
+[sub_resource type="RectangleShape2D" id="Shape_vertical"]
+size = Vector2(24, 720)
+
+[sub_resource type="RectangleShape2D" id="Shape_house"]
+size = Vector2(180, 105)
+
+[sub_resource type="RectangleShape2D" id="Shape_workshop"]
+size = Vector2(170, 75)
+
+[sub_resource type="RectangleShape2D" id="Shape_water"]
+size = Vector2(90, 470)
+
+[sub_resource type="RectangleShape2D" id="Shape_alcove"]
+size = Vector2(160, 55)
+
+[node name="MainGame" type="Node2D"]
+script = ExtResource("1_game")
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="Ground" type="Node2D" parent="World"]
+
+[node name="Earth" type="Polygon2D" parent="World/Ground"]
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 720, 0, 720)
+color = Color(0.22, 0.29, 0.18, 1)
+
+[node name="CentralPath" type="Polygon2D" parent="World/Ground"]
+polygon = PackedVector2Array(90, 310, 1180, 275, 1180, 445, 90, 470)
+color = Color(0.48, 0.4, 0.25, 1)
+
+[node name="NorthPath" type="Polygon2D" parent="World/Ground"]
+polygon = PackedVector2Array(520, 70, 725, 70, 730, 350, 525, 350)
+color = Color(0.42, 0.35, 0.22, 1)
+
+[node name="River" type="Polygon2D" parent="World/Ground"]
+polygon = PackedVector2Array(1160, 0, 1280, 0, 1280, 720, 1200, 720, 1165, 610, 1190, 500, 1160, 390, 1190, 280, 1160, 160)
+color = Color(0.12, 0.34, 0.4, 1)
+
+[node name="BurialGround" type="Polygon2D" parent="World/Ground"]
+polygon = PackedVector2Array(610, 540, 805, 520, 855, 690, 570, 690)
+color = Color(0.33, 0.28, 0.2, 1)
+
+[node name="Zones" type="Node2D" parent="World"]
+
+[node name="GoldsmithZone" type="Polygon2D" parent="World/Zones"]
+polygon = PackedVector2Array(100, 455, 340, 455, 350, 660, 80, 660)
+color = Color(0.35, 0.24, 0.12, 1)
+
+[node name="DomesticZone" type="Polygon2D" parent="World/Zones"]
+polygon = PackedVector2Array(175, 105, 430, 95, 450, 300, 150, 305)
+color = Color(0.34, 0.27, 0.17, 1)
+
+[node name="PotteryZone" type="Polygon2D" parent="World/Zones"]
+polygon = PackedVector2Array(480, 75, 750, 75, 750, 245, 480, 245)
+color = Color(0.39, 0.24, 0.15, 1)
+
+[node name="StorageZone" type="Polygon2D" parent="World/Zones"]
+polygon = PackedVector2Array(840, 100, 1085, 105, 1090, 335, 830, 330)
+color = Color(0.3, 0.24, 0.15, 1)
+
+[node name="Foliage" type="Node2D" parent="World"]
+
+[node name="NorthCanopy" type="Polygon2D" parent="World/Foliage"]
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 62, 1030, 76, 800, 48, 550, 72, 320, 48, 0, 75)
+color = Color(0.08, 0.2, 0.1, 1)
+
+[node name="WestCanopy" type="Polygon2D" parent="World/Foliage"]
+polygon = PackedVector2Array(0, 0, 78, 0, 92, 180, 62, 350, 100, 510, 60, 720, 0, 720)
+color = Color(0.07, 0.18, 0.09, 1)
+
+[node name="SouthCanopy" type="Polygon2D" parent="World/Foliage"]
+polygon = PackedVector2Array(0, 665, 250, 640, 470, 680, 810, 650, 1030, 680, 1280, 650, 1280, 720, 0, 720)
+color = Color(0.07, 0.18, 0.09, 1)
+
+[node name="LandmarkLabels" type="Node2D" parent="World"]
+
+[node name="GoldsmithLabel" type="Label" parent="World/LandmarkLabels"]
+offset_left = 105.0
+offset_top = 470.0
+offset_right = 330.0
+offset_bottom = 500.0
+theme_override_colors/font_color = Color(0.9, 0.77, 0.48, 1)
+text = "GOLDSMITH WORK AREA"
+
+[node name="DomesticLabel" type="Label" parent="World/LandmarkLabels"]
+offset_left = 178.0
+offset_top = 118.0
+offset_right = 420.0
+offset_bottom = 148.0
+theme_override_colors/font_color = Color(0.9, 0.77, 0.48, 1)
+text = "DOMESTIC AREA"
+
+[node name="PotteryLabel" type="Label" parent="World/LandmarkLabels"]
+offset_left = 495.0
+offset_top = 88.0
+offset_right = 735.0
+offset_bottom = 118.0
+theme_override_colors/font_color = Color(0.9, 0.77, 0.48, 1)
+text = "POTTERY STORAGE"
+
+[node name="RiverLabel" type="Label" parent="World/LandmarkLabels"]
+offset_left = 1000.0
+offset_top = 470.0
+offset_right = 1155.0
+offset_bottom = 500.0
+theme_override_colors/font_color = Color(0.72, 0.88, 0.89, 1)
+text = "RIVER LANDING"
+
+[node name="Boundaries" type="Node2D" parent="World"]
+
+[node name="Top" type="StaticBody2D" parent="World/Boundaries"]
+position = Vector2(640, 12)
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Boundaries/Top"]
+shape = SubResource("Shape_horizontal")
+
+[node name="Bottom" type="StaticBody2D" parent="World/Boundaries"]
+position = Vector2(640, 708)
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Boundaries/Bottom"]
+shape = SubResource("Shape_horizontal")
+
+[node name="Left" type="StaticBody2D" parent="World/Boundaries"]
+position = Vector2(12, 360)
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Boundaries/Left"]
+shape = SubResource("Shape_vertical")
+
+[node name="Right" type="StaticBody2D" parent="World/Boundaries"]
+position = Vector2(1268, 360)
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Boundaries/Right"]
+shape = SubResource("Shape_vertical")
+
+[node name="RiverBank" type="StaticBody2D" parent="World/Boundaries"]
+position = Vector2(1210, 355)
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Boundaries/RiverBank"]
+shape = SubResource("Shape_water")
+
+[node name="DomesticStructure" type="StaticBody2D" parent="World/Boundaries"]
+position = Vector2(305, 180)
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Boundaries/DomesticStructure"]
+shape = SubResource("Shape_house")
+
+[node name="StorageStructure" type="StaticBody2D" parent="World/Boundaries"]
+position = Vector2(955, 170)
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Boundaries/StorageStructure"]
+shape = SubResource("Shape_workshop")
+
+[node name="BurialEdge" type="StaticBody2D" parent="World/Boundaries"]
+position = Vector2(710, 660)
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Boundaries/BurialEdge"]
+shape = SubResource("Shape_alcove")
+
+[node name="Props" type="Node2D" parent="World"]
+
+[node name="SleepingMat" parent="World/Props" instance=ExtResource("4_prop")]
+position = Vector2(315, 275)
+prop_name = "woven sleeping mat"
+
+[node name="StorageChest" parent="World/Props" instance=ExtResource("4_prop")]
+position = Vector2(955, 285)
+prop_name = "wooden storage chest"
+
+[node name="TradingBasket" parent="World/Props" instance=ExtResource("4_prop")]
+position = Vector2(1060, 555)
+scale = Vector2(0.8, 0.8)
+prop_name = "riverside trading basket"
+
+[node name="SpawnPoints" type="Node2D" parent="World"]
+
+[node name="GoldsmithWorktable" parent="World/SpawnPoints" instance=ExtResource("5_spawn")]
+position = Vector2(225, 570)
+location_name = "Goldsmith Worktable"
+
+[node name="SleepingMat" parent="World/SpawnPoints" instance=ExtResource("5_spawn")]
+position = Vector2(315, 275)
+location_name = "Beneath the Woven Sleeping Mat"
+searchable_prop_path = NodePath("../../Props/SleepingMat")
+
+[node name="PotteryShelf" parent="World/SpawnPoints" instance=ExtResource("5_spawn")]
+position = Vector2(610, 185)
+location_name = "Pottery Storage Shelf"
+
+[node name="StorageChest" parent="World/SpawnPoints" instance=ExtResource("5_spawn")]
+position = Vector2(955, 285)
+location_name = "Wooden Storage Chest"
+searchable_prop_path = NodePath("../../Props/StorageChest")
+
+[node name="TradingBasket" parent="World/SpawnPoints" instance=ExtResource("5_spawn")]
+position = Vector2(1060, 555)
+location_name = "Riverside Trading Basket"
+searchable_prop_path = NodePath("../../Props/TradingBasket")
+
+[node name="BurialAlcove" parent="World/SpawnPoints" instance=ExtResource("5_spawn")]
+position = Vector2(710, 585)
+location_name = "Burial Preparation Alcove"
+
+[node name="PlayerStart" type="Marker2D" parent="World"]
+position = Vector2(640, 380)
+
+[node name="Player" parent="World" instance=ExtResource("2_player")]
+position = Vector2(640, 380)
+z_index = 5
+
+[node name="Artifact" parent="World" instance=ExtResource("3_artifact")]
+z_index = 4
+
+[node name="EchoController" type="Node" parent="World"]
+script = ExtResource("6_echo")
+
+[node name="NatureEcho" type="AudioStreamPlayer" parent="World/EchoController"]
+
+[node name="ActivityEcho" type="AudioStreamPlayer" parent="World/EchoController"]
+
+[node name="MusicEcho" type="AudioStreamPlayer" parent="World/EchoController"]
+
+[node name="VoiceEcho" type="AudioStreamPlayer" parent="World/EchoController"]
+
+[node name="PortalGateway" type="Node" parent="."]
+script = ExtResource("7_portal")
+
+[node name="HUD" parent="." instance=ExtResource("8_hud")]
+
