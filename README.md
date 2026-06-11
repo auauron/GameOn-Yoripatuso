@@ -1,38 +1,35 @@
 # Hutik sa Katagman
 
-Godot 4.4 prototype for the hackathon vertical slice.
+Godot 4.4 exploration prototype set across Modern Oton in 2026 and a historically grounded reconstruction of 14th-15th century Katagman.
 
 ## Run
 
-Open `project.godot` in Godot 4.4 and press **F6** or **F5**.
+Open `project.godot` in Godot 4.4 and press **F5**.
 
 Controls:
 
 - `WASD` or arrow keys: move
-- `E`: search or recover the artifact
-- `R`: restart after completing a round
+- `E`: search, enter a building, exit, or recover an artifact
+- `F`: use the recovered Eye Piece to witness the past
 
-## Current Prototype
+## Current Game Flow
 
-- Top-down placeholder Katagman settlement
-- Six randomized artifact hiding spots
-- Three searchable environmental props
-- Four empty Cultural Echo audio channels
-- Oton Gold Death Mask Nose Piece collection
-- Simulated organizer portal payload
-- Replayable rounds without immediate spawn repetition
+1. Explore the 6400x4200 Modern Oton map and follow Cultural Echoes to the hidden Eye Piece.
+2. Recover it with `E`, then press `F` to enter ancient Katagman at the same geographic coordinate.
+3. Explore the ancient settlement, including enterable kubo interiors, and locate the Nose Piece.
+4. Recover the Nose Piece to complete the Oton Gold Death Mask discovery flow.
+
+The two outdoor scenes share river, residential, craft, market, and burial-area anchors. Their buildings, routes, props, vegetation, and atmosphere are authored independently for each era.
 
 ## Team Workflow
 
-Gameplay code is grouped by feature under `scripts/`. Reusable scenes live under `scenes/`. Final assets belong under `assets/`; see [assets/README.md](assets/README.md).
+Gameplay code is grouped by feature under `scripts/`. Persistent systems live in `scenes/gameplay/game_root.tscn`; swappable outdoor and interior content lives under `scenes/worlds/` and `scenes/interiors/`.
 
-Do not replace gameplay scenes just to add art. Open the relevant scene, replace its placeholder visual child with a `Sprite2D` or `AnimatedSprite2D`, then preserve the root script, collision nodes, groups, and node names used by scripts.
-
-Architecture details are documented in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+Final assets belong under `assets/`; see [assets/README.md](assets/README.md). Replace placeholder visuals without renaming scripted roots, collision children, spawn markers, entrances, exits, or HUD nodes. Detailed ownership and replacement points are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Automated Check
 
 ```powershell
 & 'C:\Users\ASUS\OneDrive\Desktop\Godot_v4.4.1-stable_win64.exe' --headless --path . --script res://tests/run_all_tests.gd
+& 'C:\Users\ASUS\OneDrive\Desktop\Godot_v4.4.1-stable_win64.exe' --headless --path . --quit-after 30
 ```
-

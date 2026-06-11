@@ -14,6 +14,24 @@ theme_override_colors/font_color = Color(0.95, 0.84, 0.55, 1)
 theme_override_font_sizes/font_size = 18
 text = "RECONSTRUCTION READY"
 
+[node name="EraLabel" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 54.0
+offset_right = 420.0
+offset_bottom = 86.0
+theme_override_colors/font_color = Color(0.78, 0.9, 0.92, 1)
+theme_override_font_sizes/font_size = 20
+text = "OTON, 2026"
+
+[node name="ObjectiveStatus" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 88.0
+offset_right = 610.0
+offset_bottom = 126.0
+theme_override_colors/font_color = Color(0.92, 0.89, 0.8, 1)
+theme_override_font_sizes/font_size = 16
+text = "Follow the echoes and recover the Eye Piece."
+
 [node name="ControlsHint" type="Label" parent="."]
 anchors_preset = 1
 anchor_left = 1.0
@@ -24,7 +42,7 @@ offset_right = -24.0
 offset_bottom = 52.0
 grow_horizontal = 0
 theme_override_colors/font_color = Color(0.86, 0.82, 0.7, 1)
-text = "MOVE: WASD / ARROWS     INTERACT: E"
+text = "MOVE: WASD / ARROWS     INTERACT: E     VISION: F"
 horizontal_alignment = 2
 
 [node name="InteractionPrompt" type="Label" parent="."]
@@ -47,6 +65,40 @@ theme_override_font_sizes/font_size = 20
 text = "Press E to interact."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="TransitionHint" type="Label" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 90.0
+offset_bottom = 130.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.45, 0.9, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 22
+text = "Press F to witness the past."
+horizontal_alignment = 1
+
+[node name="ContextMessage" type="Label" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 135.0
+offset_bottom = 175.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.77, 0.38, 1)
+theme_override_font_sizes/font_size = 18
+text = "The Eye Piece is needed to witness the past."
+horizontal_alignment = 1
+
+[node name="TransitionOverlay" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.04, 0.11, 0.14, 0.94)
 
 [node name="IntroBackdrop" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -88,7 +140,7 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(560, 190)
 theme_override_colors/font_color = Color(0.91, 0.88, 0.8, 1)
 theme_override_font_sizes/font_size = 18
-text = "The Eye Piece has opened an evidence-based reconstruction of Katagman.\n\nListen for Cultural Echoes. Search the settlement and recover the missing Nose Piece. These reconstructed scenes are interpretations of an incomplete archaeological record."
+text = "Begin in Oton, 2026, where the Eye Piece remains hidden somewhere across the town.\n\nFollow sounds, music, nature, and local voices as they grow louder near the artifact. Recover it to witness the same geography during Katagman's 14th-15th century past."
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
@@ -96,7 +148,7 @@ autowrap_mode = 2
 [node name="BeginButton" type="Button" parent="IntroPanel/Content"]
 custom_minimum_size = Vector2(0, 52)
 theme_override_font_sizes/font_size = 20
-text = "ENTER THE RECONSTRUCTION"
+text = "BEGIN THE SEARCH"
 
 [node name="PortalPanel" type="PanelContainer" parent="."]
 anchors_preset = 8
@@ -133,4 +185,3 @@ autowrap_mode = 2
 custom_minimum_size = Vector2(0, 52)
 theme_override_font_sizes/font_size = 20
 text = "RESTART ROUND"
-

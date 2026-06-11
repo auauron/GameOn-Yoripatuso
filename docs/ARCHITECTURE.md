@@ -1,82 +1,50 @@
-# Prototype Architecture
+# Dual-Era Architecture
 
-## Ownership Boundaries
+## Runtime Shape
 
-### `scripts/gameplay/`
+`GameRoot` persists while outdoor worlds and interiors are replaced inside `WorldContainer`. The player, camera, HUD, collectible, Cultural Echo controller, portal boundary, and story state therefore survive scene changes.
 
-Owns round flow and spawn selection. `game_round.gd` coordinates components but does not contain movement, UI rendering, audio math, or API implementation.
-
-### `scripts/player/`
-
-Owns movement and nearest-interactable selection. Art can change without changing this script.
-
-### `scripts/interactions/`
-
-Defines the small `Interactable` contract shared by props and artifacts.
-
-### `scripts/world/`
-
-Owns hiding-place metadata and searchable prop state.
-
-### `scripts/artifact/`
-
-Owns reveal, collect, and reset behavior for the Nose Piece.
-
-### `scripts/audio/`
-
-Maps player distance to a normalized Cultural Echo intensity. The four `AudioStreamPlayer` children accept ambience, activity, music, and voice assets independently.
-
-### `scripts/integration/`
-
-Owns the organizer portal boundary. Replace the body of `trigger_portal_unlock_placeholder()` when the real contract arrives; gameplay should not know HTTP details.
-
-### `scripts/ui/`
-
-Owns prototype labels, panels, and button signals. It is intentionally separate from the final UI design.
+- `scripts/gameplay/game_root.gd`: world loading, era transition, objectives, interiors, and artifact routing
+- `scripts/gameplay/game_state.gd`: pure Eye Piece and one-way past-transition rules
+- `scripts/world/exploration_world.gd`: shared outdoor bounds, spawn markers, and coordinate clamping
+- `scripts/player/player.gd`: movement, nearest interaction, and dynamic camera limits
+- `scripts/audio/echo_controller.gd`: distance-based volume across four optional audio layers
+- `scripts/integration/portal_gateway.gd`: organizer integration boundary
 
 ## Scene Responsibilities
 
-- `scenes/gameplay/main_game.tscn`: level assembly and authored hiding spots
-- `scenes/player/player.tscn`: player collision, detector, camera, placeholder
-- `scenes/world/searchable_prop.tscn`: reusable searchable cover or container
-- `scenes/world/artifact_spawn_point.tscn`: location name and optional prop link
-- `scenes/artifact/artifact.tscn`: collectible placeholder and collision
-- `scenes/ui/hud.tscn`: intro, interaction prompt, portal result, restart
+- `scenes/gameplay/game_root.tscn`: persistent runtime assembly and startup scene
+- `scenes/worlds/modern_oton_world.tscn`: 6400x4200 Modern Oton, Eye Piece locations, modern house entrance
+- `scenes/worlds/ancient_katagman_world.tscn`: matching geography, Nose Piece locations, ancient kubo entrance
+- `scenes/interiors/modern_house_interior.tscn`: reusable present-day interior contract
+- `scenes/interiors/ancient_kubo_interior.tscn`: reusable historical interior contract
+- `scenes/world/searchable_prop.tscn`: openable cover or container with a `RevealPoint`
+- `scenes/world/world_entrance.tscn` and `world_exit.tscn`: reusable `E` interactions
 
-## Asset Replacement Points
+## Asset Handoff
 
-### Player
+### Outdoor Worlds
 
-Replace `Player/PlaceholderVisual` and `Player/DirectionMarker`. Keep `Player`, `CollisionShape2D`, `InteractionDetector`, and `Camera2D`.
+Replace or extend each scene's `WorldVisual` with `TileMapLayer`, `Sprite2D`, `AnimatedSprite2D`, particles, and authored collision. Keep the world root script, `SharedAnchors`, `PlayerSpawn`, `SafeTransitionSpawn`, `ArtifactSpawnPoints`, and `Entrances`.
 
-### Artifact
+Shared anchors must remain at matching coordinates across both eras. Art does not need a one-to-one match: a modern road can correspond to an ancient footpath, and a concrete house can correspond to a nipa or kubo structure.
 
-Replace `Artifact/PlaceholderVisual`, `Artifact/CenterCut`, and `Artifact/Glow`. Assign a discovery clip to the artifact scene's `discovery_sound` Inspector property.
+### Player and Artifacts
 
-### Searchable Props
+Replace `Player/PlaceholderVisual` and `DirectionMarker`, preserving collision, interaction detector, and camera. Replace the artifact polygon children while preserving the `Artifact` root and collision. `GameRoot` configures the same collectible as the blue Eye Piece or gold Nose Piece.
 
-Create inherited scenes from `searchable_prop.tscn` for each final prop. Replace `ClosedVisual` and `OpenVisual`; adjust the interaction, blocker, and reveal-point shapes to match the art. Assign an opening sound through `search_sound`.
+### Interiors and Props
 
-### Cultural Echoes
+New interiors must expose `PlayerSpawn`, `WorldExit`, and `metadata/interior_bounds`. Create inherited searchable-prop scenes for beds, tables, drawers, cabinets, chests, baskets, and pottery. Preserve `ClosedVisual`, `OpenVisual`, `RevealPoint`, and collision nodes or update the script paths together.
 
-Assign looping streams in `MainGame/World/EchoController`:
+### Cultural Echo Audio
 
-- `NatureEcho`
-- `ActivityEcho`
-- `MusicEcho`
-- `VoiceEcho`
-
-All streams are optional. Missing audio never blocks gameplay.
+Assign looping streams to `GameRoot/EchoController/NatureEcho`, `ActivityEcho`, `MusicEcho`, and `VoiceEcho`. The controller raises all available layers as the player approaches the selected artifact location. Empty channels are valid while the team adds assets.
 
 ## Required Contracts
 
-- Spawn points remain in the `artifact_spawn_points` group.
-- Searchable props remain in the `searchable_props` group.
-- Covered spawn points reference their owning prop through `searchable_prop_path`.
-- Every searchable prop keeps a `RevealPoint` child.
-- HUD node paths used by `hud.gd` remain stable unless the script is updated simultaneously.
-
-## Future Expansion
-
-Museum archives, trade, goldsmithing, and burial-context puzzles should become separate scenes. They should report completion to a higher-level chapter controller instead of expanding `game_round.gd` into a full-game manager.
-
+- Both outdoor worlds keep `world_bounds = Rect2(0, 0, 6400, 4200)`.
+- Modern artifact points use `eye_piece_spawn_points`; ancient points use `nose_piece_spawn_points`.
+- Covered artifact points reference a `SearchableProp` through `searchable_prop_path`.
+- Each entrance supplies a valid era-appropriate `interior_scene`.
+- HUD node paths used by `hud.gd` remain stable unless the script changes in the same commit.

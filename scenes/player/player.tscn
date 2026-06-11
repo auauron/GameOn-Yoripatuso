@@ -34,9 +34,5 @@ monitoring = true
 shape = SubResource("Circle_interaction")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-limit_left = 0
-limit_top = 0
-limit_right = 1280
-limit_bottom = 720
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0

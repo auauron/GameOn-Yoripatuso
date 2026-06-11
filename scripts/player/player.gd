@@ -31,6 +31,12 @@ func reset_to(start_position: Vector2) -> void:
 	global_position = start_position
 	velocity = Vector2.ZERO
 
+func set_camera_bounds(bounds: Rect2) -> void:
+	$Camera2D.limit_left = int(bounds.position.x)
+	$Camera2D.limit_top = int(bounds.position.y)
+	$Camera2D.limit_right = int(bounds.end.x)
+	$Camera2D.limit_bottom = int(bounds.end.y)
+
 func _on_interaction_area_entered(area: Area2D) -> void:
 	if area is Interactable and area not in nearby_interactables:
 		nearby_interactables.append(area)

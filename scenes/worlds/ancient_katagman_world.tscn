@@ -1,0 +1,93 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/world/exploration_world.gd" id="1_world"]
+[ext_resource type="Script" path="res://scripts/world/placeholder_world_visual.gd" id="2_visual"]
+[ext_resource type="PackedScene" path="res://scenes/world/searchable_prop.tscn" id="3_prop"]
+[ext_resource type="PackedScene" path="res://scenes/world/artifact_spawn_point.tscn" id="4_spawn"]
+[ext_resource type="PackedScene" path="res://scenes/world/world_entrance.tscn" id="5_entrance"]
+[ext_resource type="PackedScene" path="res://scenes/interiors/ancient_kubo_interior.tscn" id="6_interior"]
+
+[node name="AncientKatagmanWorld" type="Node2D"]
+script = ExtResource("1_world")
+era_id = 1
+era_display_name = "KATAGMAN RECONSTRUCTION"
+artifact_group_name = "nose_piece_spawn_points"
+
+[node name="WorldVisual" type="Node2D" parent="."]
+script = ExtResource("2_visual")
+modern = false
+
+[node name="SharedAnchors" type="Node2D" parent="."]
+
+[node name="RiverLanding" type="Marker2D" parent="SharedAnchors"]
+position = Vector2(5500, 2020)
+
+[node name="ResidentialDistrict" type="Marker2D" parent="SharedAnchors"]
+position = Vector2(1300, 1050)
+
+[node name="CraftDistrict" type="Marker2D" parent="SharedAnchors"]
+position = Vector2(3050, 820)
+
+[node name="MarketDistrict" type="Marker2D" parent="SharedAnchors"]
+position = Vector2(3450, 2180)
+
+[node name="BurialGeography" type="Marker2D" parent="SharedAnchors"]
+position = Vector2(4650, 3300)
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(620, 2100)
+
+[node name="SafeTransitionSpawn" type="Marker2D" parent="."]
+position = Vector2(3200, 2100)
+
+[node name="SearchableProps" type="Node2D" parent="."]
+
+[node name="WovenMat" parent="SearchableProps" instance=ExtResource("3_prop")]
+position = Vector2(1170, 1180)
+prop_name = "woven sleeping mat"
+
+[node name="GoldsmithChest" parent="SearchableProps" instance=ExtResource("3_prop")]
+position = Vector2(2920, 930)
+prop_name = "goldsmith storage chest"
+
+[node name="TradingBasket" parent="SearchableProps" instance=ExtResource("3_prop")]
+position = Vector2(5340, 2230)
+prop_name = "riverside trading basket"
+
+[node name="ArtifactSpawnPoints" type="Node2D" parent="."]
+
+[node name="DomesticMat" parent="ArtifactSpawnPoints" instance=ExtResource("4_spawn")]
+position = Vector2(1170, 1180)
+location_name = "Beneath a Woven Sleeping Mat"
+searchable_prop_path = NodePath("../../SearchableProps/WovenMat")
+
+[node name="GoldsmithStorage" parent="ArtifactSpawnPoints" instance=ExtResource("4_spawn")]
+position = Vector2(2920, 930)
+location_name = "Goldsmith Workshop Storage"
+searchable_prop_path = NodePath("../../SearchableProps/GoldsmithChest")
+
+[node name="RiverTradeBasket" parent="ArtifactSpawnPoints" instance=ExtResource("4_spawn")]
+position = Vector2(5340, 2230)
+location_name = "Riverside Trading Basket"
+searchable_prop_path = NodePath("../../SearchableProps/TradingBasket")
+
+[node name="BurialAlcove" parent="ArtifactSpawnPoints" instance=ExtResource("4_spawn")]
+position = Vector2(4560, 3220)
+location_name = "Burial Preparation Alcove"
+
+[node name="MarketPottery" parent="ArtifactSpawnPoints" instance=ExtResource("4_spawn")]
+position = Vector2(3500, 2250)
+location_name = "Katagman Market Pottery Shelf"
+
+[node name="RiverLanding" parent="ArtifactSpawnPoints" instance=ExtResource("4_spawn")]
+position = Vector2(4920, 1710)
+location_name = "Ancient River Landing"
+
+[node name="Entrances" type="Node2D" parent="."]
+
+[node name="ResidentialKubo" parent="Entrances" instance=ExtResource("5_entrance")]
+position = Vector2(1450, 810)
+entrance_id = "shared_residential_house"
+interior_scene = ExtResource("6_interior")
+
+[node name="GeneratedBoundaries" type="Node2D" parent="."]

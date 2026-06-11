@@ -9,12 +9,19 @@ signal collected(artifact: ArtifactCollectible)
 
 var is_collected := false
 
+func configure_component(new_component_name: String, prompt: String, color: Color) -> void:
+	component_name = new_component_name
+	interaction_prompt = prompt
+	if has_node("PlaceholderVisual"):
+		$PlaceholderVisual.color = color
+	if has_node("Glow"):
+		$Glow.color = Color(color, 0.25)
+
 func prepare_for_round(spawn_point: ArtifactSpawnPoint) -> void:
 	global_position = spawn_point.global_position
 	is_collected = false
 	interaction_enabled = false
 	visible = false
-	interaction_prompt = "Press E to recover the Nose Piece."
 	if spawn_point.get_searchable_prop() == null:
 		reveal_at(spawn_point.global_position)
 
