@@ -23,13 +23,17 @@ Controls:
 
 The two outdoor scenes share river, residential, craft, market, and burial-area anchors. Their buildings, routes, props, vegetation, and atmosphere are authored independently for each era.
 
+The first art-direction showcase is the residential district: the same coordinates become a warm 2026 Oton neighborhood or a raised-kubo Katagman settlement. Both use a high three-quarter layered-diorama camera, dense story clusters, foot-based depth sorting, and foreground foliage that can frame the player without blocking movement.
+
 A live minimap appears in the top-right during exploration. The full map shows the current era and coordinates without revealing either artifact's hiding place. Inside buildings it marks the outdoor position you will return to.
 
 ## Team Workflow
 
 Gameplay code is grouped by feature under `scripts/`. Persistent systems live in `scenes/gameplay/game_root.tscn`; swappable outdoor and interior content lives under `scenes/worlds/` and `scenes/interiors/`.
 
-Final assets belong under `assets/`; see [assets/README.md](assets/README.md). Replace placeholder visuals without renaming scripted roots, collision children, spawn markers, entrances, exits, or HUD nodes. Detailed ownership and replacement points are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+Final assets belong under `assets/`; see [assets/README.md](assets/README.md). Replace procedural blockout visuals without renaming scripted roots, collision children, spawn markers, entrances, exits, or HUD nodes. Detailed ownership and replacement points are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+Residential previews are generated at `docs/modern-residential-diorama-preview.png` and `docs/ancient-residential-diorama-preview.png`.
 
 ## Automated Check
 

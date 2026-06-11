@@ -21,17 +21,33 @@
 - `scenes/world/searchable_prop.tscn`: openable cover or container with a `RevealPoint`
 - `scenes/world/world_entrance.tscn` and `world_exit.tscn`: reusable `E` interactions
 
+## Layered Diorama Contract
+
+Outdoor worlds share the same ordered visual layers:
+
+- `FarBackground`: distant silhouettes below the playable geography
+- `Ground`: era-specific painted terrain and shared routes
+- `GroundDetail`: decals, small plants, stones, and path texture
+- `DepthSortedWorld`: player, artifact, buildings, props, vegetation, and entrances with `y_sort_enabled`
+- `RoofAndCanopyOverlays`: upper building or canopy pieces that must cover actors
+- `EraAtmosphere`: color wash, particles, weather, and time-specific mood
+- `NearForeground`: non-colliding foliage that frames the camera above gameplay
+
+The modern and ancient `ResidentialShowcase` nodes intentionally use the same world position. Their contents differ by era while preserving the geographic comparison used by the Eye Piece transition.
+
 ## Asset Handoff
 
 ### Outdoor Worlds
 
-Replace or extend each scene's `WorldVisual` with `TileMapLayer`, `Sprite2D`, `AnimatedSprite2D`, particles, and authored collision. Keep the world root script, `SharedAnchors`, `PlayerSpawn`, `SafeTransitionSpawn`, `ArtifactSpawnPoints`, and `Entrances`.
+Replace procedural visuals inside the established layers with `TileMapLayer`, `Sprite2D`, `AnimatedSprite2D`, particles, and authored collision. Keep the world root script, `SharedAnchors`, `PlayerSpawn`, `SafeTransitionSpawn`, `ArtifactSpawnPoints`, and entrance containers.
+
+Depth-sorted props use a foot or ground-contact origin. Keep collision around the footprint rather than the full painted silhouette. Foreground clusters should remain non-colliding so they frame exploration without creating invisible walls.
 
 Shared anchors must remain at matching coordinates across both eras. Art does not need a one-to-one match: a modern road can correspond to an ancient footpath, and a concrete house can correspond to a nipa or kubo structure.
 
 ### Player and Artifacts
 
-Replace `Player/PlaceholderVisual` and `DirectionMarker`, preserving collision, interaction detector, and camera. Replace the artifact polygon children while preserving the `Artifact` root and collision. `GameRoot` configures the same collectible as the blue Eye Piece or gold Nose Piece.
+Replace or extend `Player/PaintedVisual`, preserving `ContactShadow`, the low foot-based collision, interaction detector, and camera. Replace the artifact polygon children while preserving the `Artifact` root and collision. `GameRoot` configures the same collectible as the blue Eye Piece or gold Nose Piece.
 
 ### Interiors and Props
 

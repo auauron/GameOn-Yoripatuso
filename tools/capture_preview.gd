@@ -9,15 +9,16 @@ func _capture() -> void:
 	root.add_child(game)
 	await process_frame
 	game.start_game()
-	game.player.global_position = Vector2(1300, 1050)
+	game.player.global_position = Vector2(1300, 1320)
 	await _settle_camera()
-	if not _save_frame("res://docs/modern-world-preview.png"):
+	if not _save_frame("res://docs/modern-residential-diorama-preview.png"):
 		return
 
 	game.state.collect_eye_piece()
 	game.request_era_transition()
+	game.player.global_position = Vector2(1300, 1320)
 	await _settle_camera()
-	if not _save_frame("res://docs/ancient-world-preview.png"):
+	if not _save_frame("res://docs/ancient-residential-diorama-preview.png"):
 		return
 
 	game.toggle_full_map()
@@ -25,7 +26,7 @@ func _capture() -> void:
 	if not _save_frame("res://docs/navigation-map-preview.png"):
 		return
 
-	print("Saved world and navigation previews in res://docs/.")
+	print("Saved residential diorama and navigation previews in res://docs/.")
 	quit(0)
 
 func _settle_camera() -> void:
