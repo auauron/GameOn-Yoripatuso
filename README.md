@@ -11,6 +11,8 @@ Controls:
 - `WASD` or arrow keys: move
 - `E`: search, enter a building, exit, or recover an artifact
 - `F`: use the recovered Eye Piece to witness the past
+- `M`: open or close the exploration map and view your location
+- `F11`: toggle fullscreen mode
 
 ## Current Game Flow
 
@@ -20,6 +22,8 @@ Controls:
 4. Recover the Nose Piece to complete the Oton Gold Death Mask discovery flow.
 
 The two outdoor scenes share river, residential, craft, market, and burial-area anchors. Their buildings, routes, props, vegetation, and atmosphere are authored independently for each era.
+
+A live minimap appears in the top-right during exploration. The full map shows the current era and coordinates without revealing either artifact's hiding place. Inside buildings it marks the outdoor position you will return to.
 
 ## Team Workflow
 

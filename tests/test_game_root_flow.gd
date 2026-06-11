@@ -13,6 +13,14 @@ func run(tree: SceneTree) -> bool:
 	await tree.process_frame
 	assert(game.state.current_era == GameState.Era.MODERN)
 	assert(game.current_world.world_bounds == Rect2(0, 0, 6400, 4200))
+	assert(game.hud.get_node("MiniMapFrame").visible)
+	assert(not game.hud.is_full_map_visible())
+	game.toggle_full_map()
+	assert(game.hud.is_full_map_visible())
+	assert(not game.player.input_enabled)
+	game.toggle_full_map()
+	assert(not game.hud.is_full_map_visible())
+	assert(game.player.input_enabled)
 
 	var modern_position := Vector2(3100, 2050)
 	game.player.global_position = modern_position
@@ -35,12 +43,15 @@ func run(tree: SceneTree) -> bool:
 	await tree.process_frame
 	assert(game.state.current_era == GameState.Era.ANCIENT)
 	assert(game.player.global_position.distance_to(modern_position) < 2.0)
+	assert(game.hud.get_node("MiniMapFrame/NavigationMap").era_id == GameState.Era.ANCIENT)
 
 	var entrance = game.current_world.get_node("Entrances").get_child(0)
 	game.enter_interior(entrance)
 	await tree.process_frame
 	assert(game.current_world == null)
 	assert(game.current_content.get_node_or_null("WorldExit") != null)
+	assert(game.hud.get_node("MiniMapFrame/NavigationMap").indoors)
+	assert(game.hud.get_node("MiniMapFrame/NavigationMap").tracked_position == game.outdoor_return_position)
 	game.return_to_outdoor()
 	await tree.process_frame
 	assert(game.current_world != null)

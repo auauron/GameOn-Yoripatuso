@@ -20,7 +20,12 @@ func _capture() -> void:
 	if not _save_frame("res://docs/ancient-world-preview.png"):
 		return
 
-	print("Saved modern and ancient world previews in res://docs/.")
+	game.toggle_full_map()
+	await _settle_camera()
+	if not _save_frame("res://docs/navigation-map-preview.png"):
+		return
+
+	print("Saved world and navigation previews in res://docs/.")
 	quit(0)
 
 func _settle_camera() -> void:

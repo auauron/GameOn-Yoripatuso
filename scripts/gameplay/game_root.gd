@@ -21,6 +21,10 @@ var selected_spawn_point: ArtifactSpawnPoint
 var selected_location_name := ""
 var selected_spawn_names := {}
 var game_started := false
+var navigation_bounds := Rect2(0, 0, 6400, 4200)
+var navigation_era_id := GameState.Era.MODERN
+var navigation_era_name := "OTON, 2026"
+var input_enabled_before_map := false
 
 func _ready() -> void:
 	player.input_enabled = false
@@ -35,6 +39,15 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("era_transition"):
 		request_era_transition()
+	elif event.is_action_pressed("toggle_map") and game_started:
+		toggle_full_map()
+	elif event.is_action_pressed("toggle_fullscreen"):
+		toggle_fullscreen()
+
+func _process(_delta: float) -> void:
+	var indoors := current_world == null
+	var navigation_position := outdoor_return_position if indoors else player.global_position
+	hud.update_navigation(navigation_bounds, navigation_position, navigation_era_id, navigation_era_name, indoors)
 
 func start_game() -> void:
 	game_started = true
@@ -63,6 +76,9 @@ func load_outdoor_world(scene: PackedScene, desired_position: Vector2) -> bool:
 		return false
 
 	current_outdoor_scene = scene
+	navigation_bounds = current_world.world_bounds
+	navigation_era_id = current_world.era_id
+	navigation_era_name = current_world.era_display_name
 	var spawn_position := current_world.get_player_spawn()
 	if desired_position.is_finite():
 		spawn_position = current_world.clamp_to_world(desired_position)
@@ -156,6 +172,22 @@ func enter_interior(entrance: WorldEntrance) -> void:
 
 func return_to_outdoor() -> void:
 	load_outdoor_world(current_outdoor_scene, outdoor_return_position)
+
+func toggle_full_map() -> void:
+	if hud.is_full_map_visible():
+		hud.set_full_map_visible(false)
+		player.input_enabled = input_enabled_before_map
+		return
+	input_enabled_before_map = player.input_enabled
+	player.input_enabled = false
+	hud.set_full_map_visible(true)
+
+func toggle_fullscreen() -> void:
+	var current_mode := DisplayServer.window_get_mode()
+	if current_mode == DisplayServer.WINDOW_MODE_FULLSCREEN or current_mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 func connect_world_interactions() -> void:
 	if current_content == null:

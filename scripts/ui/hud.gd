@@ -62,3 +62,24 @@ func show_context_message(message: String) -> void:
 
 func set_transition_active(active: bool) -> void:
 	$TransitionOverlay.visible = active
+
+func update_navigation(bounds: Rect2, world_position: Vector2, era_id: int, era_name: String, indoors: bool) -> void:
+	$MiniMapFrame/NavigationMap.set_navigation_context(bounds, world_position, era_id, indoors)
+	$FullMapOverlay/MapPanel/Content/NavigationMap.set_navigation_context(bounds, world_position, era_id, indoors)
+	$FullMapOverlay/MapPanel/Content/MapTitle.text = "%s - EXPLORATION MAP" % era_name
+	var location_kind := "OUTDOOR RETURN LOCATION" if indoors else "CURRENT LOCATION"
+	$FullMapOverlay/MapPanel/Content/LocationStatus.text = "%s  X: %d  Y: %d" % [
+		location_kind,
+		int(world_position.x),
+		int(world_position.y),
+	]
+
+func toggle_full_map() -> bool:
+	set_full_map_visible(not is_full_map_visible())
+	return is_full_map_visible()
+
+func set_full_map_visible(visible: bool) -> void:
+	$FullMapOverlay.visible = visible
+
+func is_full_map_visible() -> bool:
+	return $FullMapOverlay.visible
