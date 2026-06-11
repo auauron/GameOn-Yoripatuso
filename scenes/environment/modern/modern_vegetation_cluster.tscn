@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/environment/shared/depth_sorted_prop.tscn" id="1_base"]
+
+[node name="ModernVegetationCluster" instance=ExtResource("1_base")]
+prop_size = Vector2(150, 170)
+body_color = Color(0.207843, 0.345098, 0.243137, 1)
+accent_color = Color(0.427451, 0.545098, 0.333333, 1)
