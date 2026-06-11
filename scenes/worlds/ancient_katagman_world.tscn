@@ -69,13 +69,13 @@ z_index = 30
 z_index = 40
 
 [node name="WestCanopy" parent="NearForeground" instance=ExtResource("9_foreground")]
-position = Vector2(760, 1380)
-rotation = -0.12
+position = Vector2(720, 1500)
+scale = Vector2(0.75, 0.75)
 foliage_color = Color(0.0705882, 0.145098, 0.0901961, 1)
 
 [node name="EastCanopy" parent="NearForeground" instance=ExtResource("9_foreground")]
-position = Vector2(1530, 1450)
-rotation = 3.04
+position = Vector2(1880, 1500)
+scale = Vector2(-0.75, 0.75)
 foliage_color = Color(0.0705882, 0.145098, 0.0901961, 1)
 
 [node name="SharedAnchors" type="Node2D" parent="."]
