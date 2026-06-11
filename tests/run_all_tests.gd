@@ -16,6 +16,11 @@ func _init() -> void:
 			quit(1)
 			return
 
+	var camera_suite := preload("res://tests/test_camera_profiles.gd").new()
+	if not await camera_suite.run(self):
+		quit(1)
+		return
+
 	var scene_suite := preload("res://tests/test_scene_contract.gd").new()
 	if not await scene_suite.run(self):
 		quit(1)

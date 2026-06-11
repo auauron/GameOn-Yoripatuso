@@ -85,6 +85,7 @@ func load_outdoor_world(scene: PackedScene, desired_position: Vector2) -> bool:
 		spawn_position = current_world.clamp_to_world(desired_position)
 	player.reset_to(spawn_position)
 	player.set_camera_bounds(current_world.world_bounds)
+	player.apply_outdoor_camera_profile()
 	hud.set_era(current_world.era_display_name)
 	connect_world_interactions()
 	if game_started:
@@ -168,6 +169,7 @@ func enter_interior(entrance: WorldEntrance) -> void:
 		player.reset_to(player_spawn.global_position)
 	var interior_bounds: Rect2 = current_content.get_meta("interior_bounds", Rect2(0, 0, 1280, 900))
 	player.set_camera_bounds(interior_bounds)
+	player.apply_interior_camera_profile()
 	connect_world_interactions()
 	hud.set_objective("Explore the interior, then return outside to continue the search.")
 	hud.show_interaction_prompt("")

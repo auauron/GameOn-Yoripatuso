@@ -5,6 +5,11 @@ signal interaction_prompt_changed(prompt: String)
 
 @export var move_speed := 180.0
 
+const OUTDOOR_CAMERA_ZOOM := Vector2.ONE
+const OUTDOOR_CAMERA_OFFSET := Vector2(0, -72)
+const INTERIOR_CAMERA_ZOOM := Vector2(1.35, 1.35)
+const INTERIOR_CAMERA_OFFSET := Vector2(0, -36)
+
 var input_enabled := false
 var nearby_interactables: Array[Interactable] = []
 var current_interactable: Interactable
@@ -36,6 +41,18 @@ func set_camera_bounds(bounds: Rect2) -> void:
 	$Camera2D.limit_top = int(bounds.position.y)
 	$Camera2D.limit_right = int(bounds.end.x)
 	$Camera2D.limit_bottom = int(bounds.end.y)
+
+func apply_outdoor_camera_profile() -> void:
+	_apply_camera_profile(OUTDOOR_CAMERA_ZOOM, OUTDOOR_CAMERA_OFFSET)
+
+func apply_interior_camera_profile() -> void:
+	_apply_camera_profile(INTERIOR_CAMERA_ZOOM, INTERIOR_CAMERA_OFFSET)
+
+func _apply_camera_profile(target_zoom: Vector2, target_offset: Vector2) -> void:
+	$Camera2D.zoom = target_zoom
+	$Camera2D.offset = target_offset
+	$Camera2D.position_smoothing_enabled = true
+	$Camera2D.position_smoothing_speed = 6.0
 
 func _on_interaction_area_entered(area: Area2D) -> void:
 	if area is Interactable and area not in nearby_interactables:
