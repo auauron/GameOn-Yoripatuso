@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/player/painted_player_visual.gd" id="2_visual"]
 
 [sub_resource type="CapsuleShape2D" id="Capsule_player"]
 radius = 14.0
-height = 38.0
+height = 26.0
 
 [sub_resource type="CircleShape2D" id="Circle_interaction"]
 radius = 52.0
@@ -14,18 +15,20 @@ collision_layer = 1
 collision_mask = 1
 script = ExtResource("1_player")
 
-[node name="PlaceholderVisual" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(-14, -16, 14, -16, 14, 16, -14, 16)
-color = Color(0.88, 0.72, 0.32, 1)
+[node name="ContactShadow" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-17, -5, 17, -5, 21, 0, 17, 5, -17, 5, -21, 0)
+color = Color(0.12, 0.09, 0.07, 0.28)
 
-[node name="DirectionMarker" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(-5, -19, 5, -19, 0, -27)
-color = Color(0.19, 0.12, 0.08, 1)
+[node name="PaintedVisual" type="Node2D" parent="."]
+position = Vector2(0, -2)
+script = ExtResource("2_visual")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -13)
 shape = SubResource("Capsule_player")
 
 [node name="InteractionDetector" type="Area2D" parent="."]
+position = Vector2(0, -18)
 collision_layer = 0
 collision_mask = 2
 monitoring = true

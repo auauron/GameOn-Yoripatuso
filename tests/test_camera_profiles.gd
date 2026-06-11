@@ -6,6 +6,11 @@ func run(tree: SceneTree) -> bool:
 	tree.root.add_child(player)
 	await tree.process_frame
 
+	assert(player.get_node_or_null("ContactShadow") != null)
+	assert(player.get_node_or_null("PaintedVisual") != null)
+	assert(player.get_node("PaintedVisual").position.y < 0.0)
+	assert(player.get_node("CollisionShape2D").position.y <= -10.0)
+
 	player.apply_outdoor_camera_profile()
 	assert(player.get_node("Camera2D").zoom == Vector2.ONE)
 	assert(player.get_node("Camera2D").offset == Vector2(0, -72))

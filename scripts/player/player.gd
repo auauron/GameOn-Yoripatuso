@@ -18,13 +18,15 @@ func _ready() -> void:
 	$InteractionDetector.area_entered.connect(_on_interaction_area_entered)
 	$InteractionDetector.area_exited.connect(_on_interaction_area_exited)
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not input_enabled:
 		velocity = Vector2.ZERO
+		$PaintedVisual.set_motion(Vector2.ZERO, false, delta)
 		return
 
 	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * move_speed
+	$PaintedVisual.set_motion(direction, not direction.is_zero_approx(), delta)
 	move_and_slide()
 
 func _process(_delta: float) -> void:
