@@ -7,8 +7,11 @@ extends Node2D
 @export var world_bounds := Rect2(0, 0, 6400, 4200)
 @export var player_spawn_path := NodePath("PlayerSpawn")
 @export var safe_transition_spawn_path := NodePath("SafeTransitionSpawn")
+@export var actor_layer_path := NodePath("DepthSortedWorld")
 
 func _ready() -> void:
+	if get_actor_layer() == null:
+		push_error("%s requires a DepthSortedWorld actor layer." % name)
 	for point in get_artifact_spawn_points():
 		point.add_to_group(artifact_group_name)
 	_build_boundary_collisions()
@@ -20,6 +23,9 @@ func get_player_spawn() -> Vector2:
 func get_safe_transition_position() -> Vector2:
 	var marker := get_node_or_null(safe_transition_spawn_path) as Marker2D
 	return marker.global_position if marker else world_bounds.get_center()
+
+func get_actor_layer() -> Node2D:
+	return get_node_or_null(actor_layer_path) as Node2D
 
 func get_artifact_spawn_points() -> Array[ArtifactSpawnPoint]:
 	var points: Array[ArtifactSpawnPoint] = []

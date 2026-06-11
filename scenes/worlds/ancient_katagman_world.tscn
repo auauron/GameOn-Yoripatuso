@@ -13,9 +13,30 @@ era_id = 1
 era_display_name = "KATAGMAN RECONSTRUCTION"
 artifact_group_name = "nose_piece_spawn_points"
 
-[node name="WorldVisual" type="Node2D" parent="."]
+[node name="FarBackground" type="Node2D" parent="."]
+z_index = -30
+
+[node name="Ground" type="Node2D" parent="."]
+z_index = -20
+
+[node name="WorldVisual" type="Node2D" parent="Ground"]
 script = ExtResource("2_visual")
 modern = false
+
+[node name="GroundDetail" type="Node2D" parent="."]
+z_index = -10
+
+[node name="DepthSortedWorld" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="RoofAndCanopyOverlays" type="Node2D" parent="."]
+z_index = 20
+
+[node name="EraAtmosphere" type="Node2D" parent="."]
+z_index = 30
+
+[node name="NearForeground" type="Node2D" parent="."]
+z_index = 40
 
 [node name="SharedAnchors" type="Node2D" parent="."]
 
@@ -40,17 +61,17 @@ position = Vector2(620, 2100)
 [node name="SafeTransitionSpawn" type="Marker2D" parent="."]
 position = Vector2(3200, 2100)
 
-[node name="SearchableProps" type="Node2D" parent="."]
+[node name="SearchableProps" type="Node2D" parent="DepthSortedWorld"]
 
-[node name="WovenMat" parent="SearchableProps" instance=ExtResource("3_prop")]
+[node name="WovenMat" parent="DepthSortedWorld/SearchableProps" instance=ExtResource("3_prop")]
 position = Vector2(1170, 1180)
 prop_name = "woven sleeping mat"
 
-[node name="GoldsmithChest" parent="SearchableProps" instance=ExtResource("3_prop")]
+[node name="GoldsmithChest" parent="DepthSortedWorld/SearchableProps" instance=ExtResource("3_prop")]
 position = Vector2(2920, 930)
 prop_name = "goldsmith storage chest"
 
-[node name="TradingBasket" parent="SearchableProps" instance=ExtResource("3_prop")]
+[node name="TradingBasket" parent="DepthSortedWorld/SearchableProps" instance=ExtResource("3_prop")]
 position = Vector2(5340, 2230)
 prop_name = "riverside trading basket"
 
@@ -59,17 +80,17 @@ prop_name = "riverside trading basket"
 [node name="DomesticMat" parent="ArtifactSpawnPoints" instance=ExtResource("4_spawn")]
 position = Vector2(1170, 1180)
 location_name = "Beneath a Woven Sleeping Mat"
-searchable_prop_path = NodePath("../../SearchableProps/WovenMat")
+searchable_prop_path = NodePath("../../DepthSortedWorld/SearchableProps/WovenMat")
 
 [node name="GoldsmithStorage" parent="ArtifactSpawnPoints" instance=ExtResource("4_spawn")]
 position = Vector2(2920, 930)
 location_name = "Goldsmith Workshop Storage"
-searchable_prop_path = NodePath("../../SearchableProps/GoldsmithChest")
+searchable_prop_path = NodePath("../../DepthSortedWorld/SearchableProps/GoldsmithChest")
 
 [node name="RiverTradeBasket" parent="ArtifactSpawnPoints" instance=ExtResource("4_spawn")]
 position = Vector2(5340, 2230)
 location_name = "Riverside Trading Basket"
-searchable_prop_path = NodePath("../../SearchableProps/TradingBasket")
+searchable_prop_path = NodePath("../../DepthSortedWorld/SearchableProps/TradingBasket")
 
 [node name="BurialAlcove" parent="ArtifactSpawnPoints" instance=ExtResource("4_spawn")]
 position = Vector2(4560, 3220)
@@ -83,9 +104,9 @@ location_name = "Katagman Market Pottery Shelf"
 position = Vector2(4920, 1710)
 location_name = "Ancient River Landing"
 
-[node name="Entrances" type="Node2D" parent="."]
+[node name="Entrances" type="Node2D" parent="DepthSortedWorld"]
 
-[node name="ResidentialKubo" parent="Entrances" instance=ExtResource("5_entrance")]
+[node name="ResidentialKubo" parent="DepthSortedWorld/Entrances" instance=ExtResource("5_entrance")]
 position = Vector2(1450, 810)
 entrance_id = "shared_residential_house"
 interior_scene = ExtResource("6_interior")

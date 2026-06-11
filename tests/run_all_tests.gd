@@ -9,6 +9,7 @@ func _init() -> void:
 		preload("res://tests/test_dual_world_contract.gd").new(),
 		preload("res://tests/test_interior_flow.gd").new(),
 		preload("res://tests/test_navigation_map.gd").new(),
+		preload("res://tests/test_diorama_world_contract.gd").new(),
 	]
 	for suite in suites:
 		if not suite.run():

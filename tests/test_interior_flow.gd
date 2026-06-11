@@ -7,13 +7,15 @@ func run() -> bool:
 	]:
 		var world_scene := load(world_path) as PackedScene
 		var world = world_scene.instantiate()
-		var entrances := world.get_node("Entrances").get_children()
+		var entrance_container := world.find_child("Entrances", true, false)
+		assert(entrance_container != null)
+		var entrances := entrance_container.get_children()
 		assert(entrances.size() >= 1)
 		for entrance in entrances:
 			assert(entrance.interior_scene != null)
 			var interior = entrance.interior_scene.instantiate()
 			assert(interior.get_node_or_null("PlayerSpawn") != null)
-			assert(interior.get_node_or_null("WorldExit") != null)
+			assert(interior.find_child("WorldExit", true, false) != null)
 			interior.free()
 		world.free()
 	return true

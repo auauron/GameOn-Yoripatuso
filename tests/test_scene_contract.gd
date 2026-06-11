@@ -12,8 +12,6 @@ func run(tree: SceneTree) -> bool:
 
 	var required_paths := [
 		"WorldContainer",
-		"Player",
-		"Artifact",
 		"EchoController",
 		"PortalGateway",
 		"HUD",
@@ -23,6 +21,14 @@ func run(tree: SceneTree) -> bool:
 			push_error("Missing required persistent scene node: %s" % path)
 			game.queue_free()
 			return false
+	if game.player == null or game.artifact == null:
+		push_error("GameRoot must retain persistent player and artifact references.")
+		game.queue_free()
+		return false
+	if game.player.get_parent() != game.current_world.get_actor_layer():
+		push_error("Persistent actors must be attached to the active sort layer.")
+		game.queue_free()
+		return false
 
 	if game.current_world == null or game.current_world.era_id != GameState.Era.MODERN:
 		push_error("GameRoot must initially load Modern Oton.")

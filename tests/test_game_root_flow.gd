@@ -13,6 +13,8 @@ func run(tree: SceneTree) -> bool:
 	await tree.process_frame
 	assert(game.state.current_era == GameState.Era.MODERN)
 	assert(game.current_world.world_bounds == Rect2(0, 0, 6400, 4200))
+	assert(game.player.get_parent() == game.current_world.get_actor_layer())
+	assert(game.artifact.get_parent() == game.current_world.get_actor_layer())
 	assert(game.hud.get_node("MiniMapFrame").visible)
 	assert(not game.hud.is_full_map_visible())
 	game.toggle_full_map()
@@ -31,7 +33,8 @@ func run(tree: SceneTree) -> bool:
 	game.artifact.interact(game.player)
 	await tree.process_frame
 	assert(game.state.eye_piece_collected)
-	var modern_entrance = game.current_world.get_node("Entrances").get_child(0)
+	var modern_entrance_container = game.current_world.find_child("Entrances", true, false)
+	var modern_entrance = modern_entrance_container.get_child(0)
 	game.enter_interior(modern_entrance)
 	await tree.process_frame
 	game.return_to_outdoor()
@@ -45,17 +48,21 @@ func run(tree: SceneTree) -> bool:
 	assert(game.player.global_position.distance_to(modern_position) < 2.0)
 	assert(game.hud.get_node("MiniMapFrame/NavigationMap").era_id == GameState.Era.ANCIENT)
 
-	var entrance = game.current_world.get_node("Entrances").get_child(0)
+	var entrance_container = game.current_world.find_child("Entrances", true, false)
+	var entrance = entrance_container.get_child(0)
 	game.enter_interior(entrance)
 	await tree.process_frame
 	assert(game.current_world == null)
-	assert(game.current_content.get_node_or_null("WorldExit") != null)
+	assert(game.current_content.find_child("WorldExit", true, false) != null)
+	assert(game.player.get_parent() == game.current_content.get_node("DepthSortedWorld"))
+	assert(game.artifact.get_parent() == game.current_content.get_node("DepthSortedWorld"))
 	assert(game.hud.get_node("MiniMapFrame/NavigationMap").indoors)
 	assert(game.hud.get_node("MiniMapFrame/NavigationMap").tracked_position == game.outdoor_return_position)
 	game.return_to_outdoor()
 	await tree.process_frame
 	assert(game.current_world != null)
 	assert(game.state.current_era == GameState.Era.ANCIENT)
+	assert(game.player.get_parent() == game.current_world.get_actor_layer())
 
 	var ancient_prop = game.selected_spawn_point.get_searchable_prop()
 	if ancient_prop:

@@ -74,6 +74,7 @@ func load_outdoor_world(scene: PackedScene, desired_position: Vector2) -> bool:
 	if current_world == null:
 		push_error("Outdoor scene must use ExplorationWorld.")
 		return false
+	_attach_persistent_actors(current_world.get_actor_layer())
 
 	current_outdoor_scene = scene
 	navigation_bounds = current_world.world_bounds
@@ -160,6 +161,7 @@ func enter_interior(entrance: WorldEntrance) -> void:
 	current_content = interior_scene.instantiate() as Node2D
 	world_container.add_child(current_content)
 	current_world = null
+	_attach_persistent_actors(current_content.get_node("DepthSortedWorld") as Node2D)
 
 	var player_spawn := current_content.get_node_or_null(interior_spawn_id) as Marker2D
 	if player_spawn:
@@ -197,13 +199,13 @@ func connect_world_interactions() -> void:
 			if not node.searched.is_connected(_on_prop_searched):
 				node.searched.connect(_on_prop_searched)
 
-	var entrances := current_content.get_node_or_null("Entrances")
+	var entrances := current_content.find_child("Entrances", true, false)
 	if entrances:
 		for node in entrances.get_children():
 			if node is WorldEntrance and not node.entrance_requested.is_connected(enter_interior):
 				node.entrance_requested.connect(enter_interior)
 
-	var world_exit := current_content.get_node_or_null("WorldExit") as WorldExit
+	var world_exit := current_content.find_child("WorldExit", true, false) as WorldExit
 	if world_exit and not world_exit.exit_requested.is_connected(return_to_outdoor):
 		world_exit.exit_requested.connect(return_to_outdoor)
 
@@ -249,8 +251,26 @@ func _on_portal_result_received(success: bool, message: String, payload: Diction
 
 func _clear_current_content() -> void:
 	echo_controller.stop()
+	_detach_persistent_actors()
 	if is_instance_valid(current_content):
 		world_container.remove_child(current_content)
 		current_content.free()
 	current_content = null
 	current_world = null
+
+func _attach_persistent_actors(actor_layer: Node2D) -> void:
+	if actor_layer == null:
+		push_error("Current content has no actor layer.")
+		return
+	for actor: Node2D in [player, artifact]:
+		var saved_transform: Transform2D = actor.global_transform
+		actor.reparent(actor_layer)
+		actor.global_transform = saved_transform
+
+func _detach_persistent_actors() -> void:
+	for actor: Node2D in [player, artifact]:
+		if actor.get_parent() == self:
+			continue
+		var saved_transform: Transform2D = actor.global_transform
+		actor.reparent(self)
+		actor.global_transform = saved_transform

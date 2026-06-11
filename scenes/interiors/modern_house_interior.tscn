@@ -32,11 +32,14 @@ horizontal_alignment = 1
 [node name="PlayerSpawn" type="Marker2D" parent="."]
 position = Vector2(640, 720)
 
-[node name="HouseCabinet" parent="." instance=ExtResource("2_prop")]
+[node name="DepthSortedWorld" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="HouseCabinet" parent="DepthSortedWorld" instance=ExtResource("2_prop")]
 position = Vector2(930, 260)
 prop_name = "house cabinet"
 
-[node name="WorldExit" parent="." instance=ExtResource("1_exit")]
+[node name="WorldExit" parent="DepthSortedWorld" instance=ExtResource("1_exit")]
 position = Vector2(640, 820)
 
 [node name="Walls" type="Node2D" parent="."]
