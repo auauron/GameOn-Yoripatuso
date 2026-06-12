@@ -5,7 +5,7 @@ extends Control
 
 var world_bounds := Rect2(0, 0, 6400, 4200)
 var tracked_position := Vector2.ZERO
-var era_id := GameState.Era.MODERN
+var era_id: int = GameState.Era.MODERN
 var indoors := false
 
 const ROUTE_POINTS := [
