@@ -1,17 +1,10 @@
-<<<<<<< HEAD
 [gd_scene load_steps=19 format=3 uid="uid://cewy11upk06i1"]
-=======
-[gd_scene load_steps=10 format=3 uid="uid://k4fp0ufaww3k"]
->>>>>>> aaa019d2a4583ad59d5f9a0534c1186fbc64ea59
 
 [ext_resource type="Script" uid="uid://baiyy74ipcq7y" path="res://scripts/gameplay/game_root.gd" id="1_root"]
 [ext_resource type="PackedScene" path="res://scenes/worlds/modern_oton_world.tscn" id="2_modern"]
 [ext_resource type="PackedScene" path="res://scenes/worlds/ancient_katagman_world.tscn" id="3_ancient"]
 [ext_resource type="PackedScene" uid="uid://dd2ohabd0bux0" path="res://scenes/player/player.tscn" id="4_player"]
-<<<<<<< HEAD
-[ext_resource type="Texture2D" uid="uid://bfekbrmk2lnxa" path="res://assets/sprites/modern spritesheet.png" id="5_4g8l4"]
-=======
->>>>>>> aaa019d2a4583ad59d5f9a0534c1186fbc64ea59
+[ext_resource type="Texture2D" uid="uid://bfekbrmk2lnxa" path="res://assets/sprites/modern_front_walk.png" id="5_4g8l4"]
 [ext_resource type="PackedScene" path="res://scenes/artifact/artifact.tscn" id="5_artifact"]
 [ext_resource type="Script" uid="uid://cntfqc7kuuh52" path="res://scripts/audio/echo_controller.gd" id="6_echo"]
 [ext_resource type="Script" uid="uid://c2i5vxsgmuspg" path="res://scripts/integration/portal_gateway.gd" id="7_portal"]
