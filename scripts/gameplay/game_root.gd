@@ -11,6 +11,7 @@ extends Node2D
 @onready var echo_controller: EchoController = $EchoController
 @onready var portal_gateway: PortalGateway = $PortalGateway
 @onready var hud: PrototypeHUD = $HUD
+@onready var trade_puzzle: MaritimeTradePuzzleUI = $TradePuzzleLayer/MaritimeTradePuzzle
 
 var state := GameState.new()
 var current_content: Node2D
@@ -22,9 +23,11 @@ var selected_location_name := ""
 var selected_spawn_names := {}
 var game_started := false
 var navigation_bounds := Rect2(0, 0, 6400, 4200)
-var navigation_era_id := GameState.Era.MODERN
+var navigation_era_id: int = GameState.Era.MODERN
 var navigation_era_name := "OTON, 2026"
 var input_enabled_before_map := false
+var input_enabled_before_trade_puzzle := false
+var trade_puzzle_open := false
 
 func _ready() -> void:
 	player.input_enabled = false
@@ -33,10 +36,17 @@ func _ready() -> void:
 	hud.restart_requested.connect(restart_game)
 	artifact.collected.connect(_on_artifact_collected)
 	portal_gateway.portal_result_received.connect(_on_portal_result_received)
+	trade_puzzle.closed.connect(_on_trade_puzzle_closed)
+	trade_puzzle.completed.connect(_on_trade_puzzle_completed)
 	load_outdoor_world(modern_world_scene, Vector2.INF)
 	hud.show_intro()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("open_trade_puzzle"):
+		toggle_trade_puzzle()
+		return
+	if trade_puzzle_open:
+		return
 	if event.is_action_pressed("era_transition"):
 		request_era_transition()
 	elif event.is_action_pressed("toggle_map") and game_started:
@@ -59,6 +69,10 @@ func start_game() -> void:
 func restart_game() -> void:
 	state = GameState.new()
 	selected_spawn_names.clear()
+	trade_puzzle_open = false
+	input_enabled_before_trade_puzzle = false
+	trade_puzzle.initialize_ui()
+	trade_puzzle.close_puzzle()
 	load_outdoor_world(modern_world_scene, Vector2.INF)
 	start_game()
 
@@ -250,6 +264,39 @@ func _on_artifact_collected(collected_artifact: ArtifactCollectible) -> void:
 func _on_portal_result_received(success: bool, message: String, payload: Dictionary) -> void:
 	if success:
 		hud.show_portal_result(message, payload)
+
+
+func toggle_trade_puzzle() -> bool:
+	if trade_puzzle_open:
+		close_trade_puzzle()
+		return false
+
+	if not game_started or current_world == null or state.current_era != GameState.Era.ANCIENT:
+		hud.show_context_message("Press F, then open the trade puzzle outside in ancient Katagman.")
+		return false
+
+	input_enabled_before_trade_puzzle = player.input_enabled
+	trade_puzzle_open = true
+	player.input_enabled = false
+	hud.set_full_map_visible(false)
+	hud.show_interaction_prompt("")
+	hud.show_context_message("Sort the goods by glaze, shape, and material.")
+	trade_puzzle.open_puzzle()
+	return true
+
+
+func close_trade_puzzle() -> void:
+	trade_puzzle.close_puzzle()
+
+
+func _on_trade_puzzle_closed() -> void:
+	trade_puzzle_open = false
+	player.input_enabled = input_enabled_before_trade_puzzle
+	hud.show_context_message("")
+
+
+func _on_trade_puzzle_completed() -> void:
+	return
 
 func _clear_current_content() -> void:
 	echo_controller.stop()

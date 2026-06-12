@@ -47,6 +47,17 @@ func run(tree: SceneTree) -> bool:
 	assert(game.state.current_era == GameState.Era.ANCIENT)
 	assert(game.player.global_position.distance_to(modern_position) < 2.0)
 	assert(game.hud.get_node("MiniMapFrame/NavigationMap").era_id == GameState.Era.ANCIENT)
+	assert(game.trade_puzzle != null)
+	assert(not game.trade_puzzle.visible)
+	assert(game.toggle_trade_puzzle())
+	assert(game.trade_puzzle.visible)
+	assert(not game.player.input_enabled)
+	assert(game.trade_puzzle.get_item_card_count() == 7)
+	assert(game.trade_puzzle.handle_item_dropped("celadon_shard", game.trade_puzzle.get_crate_id_by_name("Chinese")))
+	game.close_trade_puzzle()
+	await tree.process_frame
+	assert(not game.trade_puzzle.visible)
+	assert(game.player.input_enabled)
 
 	var entrance_container = game.current_world.find_child("Entrances", true, false)
 	var entrance = entrance_container.get_child(0)

@@ -12,13 +12,14 @@ Controls:
 - `E`: search, enter a building, exit, or recover an artifact
 - `F`: use the recovered Eye Piece to witness the past
 - `M`: open or close the exploration map and view your location
+- `P`: open the maritime trade puzzle in ancient Katagman
 - `F11`: toggle fullscreen mode
 
 ## Current Game Flow
 
 1. Explore the 6400x4200 Modern Oton map and follow Cultural Echoes to the hidden Eye Piece.
 2. Recover it with `E`, then press `F` to enter ancient Katagman at the same geographic coordinate.
-3. Explore the ancient settlement, including enterable kubo interiors, and locate the Nose Piece.
+3. Explore the ancient settlement, use `P` to open the maritime trade puzzle, and locate the Nose Piece.
 4. Recover the Nose Piece to complete the Oton Gold Death Mask discovery flow.
 
 The two outdoor scenes share river, residential, craft, market, and burial-area anchors. Their buildings, routes, props, vegetation, and atmosphere are authored independently for each era.

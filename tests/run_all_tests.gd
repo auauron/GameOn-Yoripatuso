@@ -6,6 +6,8 @@ func _init() -> void:
 		preload("res://tests/test_echo_math.gd").new(),
 		preload("res://tests/test_discovery_payload.gd").new(),
 		preload("res://tests/test_spawn_selector.gd").new(),
+		preload("res://tests/test_maritime_trade_puzzle.gd").new(),
+		preload("res://tests/test_maritime_trade_puzzle_ui.gd").new(),
 		preload("res://tests/test_dual_world_contract.gd").new(),
 		preload("res://tests/test_interior_flow.gd").new(),
 		preload("res://tests/test_navigation_map.gd").new(),

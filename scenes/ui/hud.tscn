@@ -43,7 +43,7 @@ offset_right = -24.0
 offset_bottom = 52.0
 grow_horizontal = 0
 theme_override_colors/font_color = Color(0.86, 0.82, 0.7, 1)
-text = "MOVE: WASD / ARROWS   E: INTERACT   F: VISION   M: MAP   F11: FULLSCREEN"
+text = "MOVE: WASD / ARROWS   E: INTERACT   F: VISION   M: MAP   P: TRADE PUZZLE   F11: FULLSCREEN"
 horizontal_alignment = 2
 
 [node name="MiniMapFrame" type="PanelContainer" parent="."]

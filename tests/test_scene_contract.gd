@@ -15,6 +15,8 @@ func run(tree: SceneTree) -> bool:
 		"EchoController",
 		"PortalGateway",
 		"HUD",
+		"TradePuzzleLayer",
+		"TradePuzzleLayer/MaritimeTradePuzzle",
 	]
 	for path in required_paths:
 		if game.get_node_or_null(path) == null:

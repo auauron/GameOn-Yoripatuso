@@ -78,8 +78,8 @@ func toggle_full_map() -> bool:
 	set_full_map_visible(not is_full_map_visible())
 	return is_full_map_visible()
 
-func set_full_map_visible(visible: bool) -> void:
-	$FullMapOverlay.visible = visible
+func set_full_map_visible(is_visible: bool) -> void:
+	$FullMapOverlay.visible = is_visible
 
 func is_full_map_visible() -> bool:
 	return $FullMapOverlay.visible
