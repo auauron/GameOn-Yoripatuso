@@ -1,11 +1,12 @@
-[gd_scene load_steps=19 format=3 uid="uid://cewy11upk06i1"]
+[gd_scene load_steps=26 format=3 uid="uid://cewy11upk06i1"]
 
 [ext_resource type="Script" uid="uid://baiyy74ipcq7y" path="res://scripts/gameplay/game_root.gd" id="1_root"]
 [ext_resource type="PackedScene" path="res://scenes/worlds/modern_oton_world.tscn" id="2_modern"]
 [ext_resource type="PackedScene" path="res://scenes/worlds/ancient_katagman_world.tscn" id="3_ancient"]
 [ext_resource type="PackedScene" uid="uid://dd2ohabd0bux0" path="res://scenes/player/player.tscn" id="4_player"]
-[ext_resource type="Texture2D" uid="uid://bfekbrmk2lnxa" path="res://assets/sprites/modern_front_walk.png" id="5_4g8l4"]
+[ext_resource type="Texture2D" uid="uid://c6brm0bqys6ka" path="res://assets/sprites/modern_front_walk.png" id="5_4g8l4"]
 [ext_resource type="PackedScene" path="res://scenes/artifact/artifact.tscn" id="5_artifact"]
+[ext_resource type="Texture2D" uid="uid://camli4oaxuvm1" path="res://assets/sprites/modern_side_walk.png" id="6_6sgmt"]
 [ext_resource type="Script" uid="uid://cntfqc7kuuh52" path="res://scripts/audio/echo_controller.gd" id="6_echo"]
 [ext_resource type="Script" uid="uid://c2i5vxsgmuspg" path="res://scripts/integration/portal_gateway.gd" id="7_portal"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="8_hud"]
@@ -43,6 +44,26 @@ region = Rect2(3600, 0, 600, 800)
 atlas = ExtResource("5_4g8l4")
 region = Rect2(4200, 0, 600, 800)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_tjkyx"]
+atlas = ExtResource("6_6sgmt")
+region = Rect2(0, 0, 600, 800)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wvkm5"]
+atlas = ExtResource("6_6sgmt")
+region = Rect2(600, 0, 600, 800)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k7slx"]
+atlas = ExtResource("6_6sgmt")
+region = Rect2(1200, 0, 600, 800)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nrfkq"]
+atlas = ExtResource("6_6sgmt")
+region = Rect2(1800, 0, 600, 800)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hwvs3"]
+atlas = ExtResource("6_6sgmt")
+region = Rect2(2400, 0, 600, 800)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_tjkyx"]
 animations = [{
 "frames": [{
@@ -71,7 +92,27 @@ animations = [{
 "texture": SubResource("AtlasTexture_vsvui")
 }],
 "loop": true,
-"name": &"default",
+"name": &"front",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tjkyx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wvkm5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k7slx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nrfkq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hwvs3")
+}],
+"loop": true,
+"name": &"side",
 "speed": 10.0
 }]
 
@@ -88,8 +129,8 @@ z_index = 5
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
 scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_tjkyx")
-autoplay = "default"
-frame_progress = 0.988874
+animation = &"side"
+autoplay = "front"
 
 [node name="Artifact" parent="." instance=ExtResource("5_artifact")]
 z_index = 4
